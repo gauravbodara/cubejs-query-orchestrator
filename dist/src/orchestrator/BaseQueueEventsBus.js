@@ -1,0 +1,14 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.BaseQueueEventsBus = void 0;
+class BaseQueueEventsBus {
+    subscribers = {};
+    subscribe(id, callback) {
+        this.subscribers[id] = { id, callback };
+    }
+    unsubscribe(id) {
+        delete this.subscribers[id];
+    }
+}
+exports.BaseQueueEventsBus = BaseQueueEventsBus;
+//# sourceMappingURL=BaseQueueEventsBus.js.map
