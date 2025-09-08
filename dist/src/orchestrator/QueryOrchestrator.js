@@ -211,8 +211,9 @@ class QueryOrchestrator {
             return queue.getQueryStage(PreAggregations_1.PreAggregations.preAggregationQueryCacheKey(p), 10, await preAggregationsQueryStageState(p.dataSource));
         }))).findIndex(p => !!p);
         if (pendingPreAggregationIndex === -1) {
-            const qcQueue = await this.queryCache.getQueue(queryBody.dataSource);
-            return qcQueue.getQueryStage(QueryCache_1.QueryCache.queryCacheKey(queryBody));
+            return undefined;
+            // const qcQueue = await this.queryCache.getQueue(queryBody.dataSource);
+            // return qcQueue.getQueryStage(QueryCache_1.QueryCache.queryCacheKey(queryBody));
         }
         const preAggregation = queryBody.preAggregations[pendingPreAggregationIndex];
         const paQueue = await this.preAggregations.getQueue(preAggregation.dataSource);
