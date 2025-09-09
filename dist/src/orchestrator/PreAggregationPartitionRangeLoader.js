@@ -119,9 +119,13 @@ class PreAggregationPartitionRangeLoader {
         const loadRange = [...range];
         const partitionInvalidateKeyQueries = this.preAggregation.partitionInvalidateKeyQueries || this.preAggregation.invalidateKeyQueries;
         // `partitionInvalidateKeyQueries = []` in case of real time
-        if ((!partitionInvalidateKeyQueries || partitionInvalidateKeyQueries.length > 0) && buildRangeEnd < range[1]) {
-            loadRange[1] = buildRangeEnd;
-        }
+
+        // !Important: Changes done by gaurav@thelevel.ai
+        // Removed this condition, due to range issue for query vs partition range. 
+        // E.g. Query with 2025-08-06 to 2025-08-16 and for any partition, it was creating partition till 2025-08-16, but ideally it should be full partition based on partitionGranularity. 
+        // if ((!partitionInvalidateKeyQueries || partitionInvalidateKeyQueries.length > 0) && buildRangeEnd < range[1]) {
+        //     loadRange[1] = buildRangeEnd;
+        // }
         const sealAt = (0, shared_1.addSecondsToLocalTimestamp)(loadRange[1], this.preAggregation.timezone, this.preAggregation.updateWindowSeconds || 0).toISOString();
         return {
             ...this.preAggregation,
